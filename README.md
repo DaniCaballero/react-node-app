@@ -19,3 +19,5 @@ Then, run the backend server and the frontend using the next command, first in t
 ```bash
 npm start
 ```
+
+React app should be found in http://localhost:3000 
