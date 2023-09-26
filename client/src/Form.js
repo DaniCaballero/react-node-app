@@ -1,17 +1,37 @@
 import React from 'react';
 import "./Form.css";
+import checkMark from "./check-mark.png";
+import stopSign from "./stop-sign.png";
 
 function Form() {
     const [formData, setFormData] = React.useState({cardNumber : "", expDate : "", cvv : ""});
+    const [myIcon, setIcon] = React.useState("");
 
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData((prevFormData) => ({...prevFormData, [name] : value}));
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async(event) => {
         event.preventDefault();
-        alert(`Number: ${formData.cardNumber}, Expiry Date: ${formData.expDate}, CVV: ${formData.cvv}`);
+        const formValues ={cardNumber : formData.cardNumber, expDate : formData.expDate, cvv : formData.cvv};
+
+        let res = await fetch("http://localhost:3001/api/checkcard", {
+            method: "POST",
+            headers:{'content-type':'application/json'},
+            body:JSON.stringify(formValues)
+        });
+
+        let resjson = await res.json();
+
+        if(res.status === 200) {
+            setIcon(checkMark);
+            alert(resjson.success);
+
+        } else if (res.status === 404) {
+            setIcon(stopSign);
+            alert(resjson.failure);
+        }
     };
 
     return (
@@ -35,6 +55,7 @@ function Form() {
                     </div>
                 </div>
                 <button type="submit" className="submit-button">Submit</button>
+                <img src={myIcon} alt="icon"/>
             </div>
         </form>
         </div>
