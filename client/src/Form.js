@@ -23,11 +23,10 @@ function Form() {
         });
 
         let resjson = await res.json();
-
-        if(res.status === 200) {
+        if(resjson === 1) {
 
             setIcon(checkMark);
-        } else if (res.status === 404) {
+        } else if (resjson === 0) {
             setIcon(stopSign);
         }
 

@@ -2,7 +2,27 @@ const express=require("express");
 
 const router=express.Router();
 
+function checkFormat(cardNumber, expDate, cvv) {
+    let result = true;
+    const re = /^[0-9]+$/;
+    const expRegex = /^\d{2}\/\d{2}$/; // Checking if expiry date is in MM/YY format
+
+    if (re.test(cardNumber) == false || re.test(cvv) == false || expRegex.test(expDate) == false) {
+        result = false;
+    }
+
+    return result;
+}
+
 function validateArgs(cardNumber, expDate, cvv) {
+
+    //Validate if PAN and CVV only contain numbers and if the expiry date is in the right format
+    let formatBool = checkFormat(cardNumber, expDate, cvv);
+
+    if (formatBool == false) {
+        return false;
+    }
+
     // Check if the card is an American Express card
     if (cardNumber.startsWith("34") || cardNumber.startsWith("37")) {
 
@@ -42,7 +62,6 @@ function validateArgs(cardNumber, expDate, cvv) {
     }
 
     return true;
-    // Check for Luhn's algorithm
 };
 
 router.post("/api/checkcard", (req, res) => {
@@ -55,11 +74,10 @@ router.post("/api/checkcard", (req, res) => {
     let isValid = validateArgs(cardNumber, expDate, cvv);
 
     if (isValid == true) {
-        res.status(200).json({success : "bip!"});
+        res.json(1); // Success
     } else {
-        res.status(404).json({failure: "bop :("});
+        res.json(0); // Failure :(
     }
-    
 })
 
 module.exports=router
