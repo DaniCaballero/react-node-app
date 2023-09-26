@@ -25,14 +25,22 @@ function Form() {
         let resjson = await res.json();
 
         if(res.status === 200) {
-            setIcon(checkMark);
-            alert(resjson.success);
 
+            setIcon(checkMark);
         } else if (res.status === 404) {
             setIcon(stopSign);
-            alert(resjson.failure);
         }
+
+        showImg();
     };
+
+    function hideImg() {
+        document.getElementById("sign").style.display = "none";
+    }
+
+    function showImg() {
+        document.getElementById("sign").style.display = "block";
+    }
 
     return (
         <div className="container">
@@ -55,7 +63,7 @@ function Form() {
                     </div>
                 </div>
                 <button type="submit" className="submit-button">Submit</button>
-                <img src={myIcon} alt="icon"/>
+                <img id="sign" height="48" width="48" src={myIcon} alt="icon" onError={hideImg}/>
             </div>
         </form>
         </div>

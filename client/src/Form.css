@@ -9,7 +9,7 @@
 .form {
     background-color: white;
     border-radius: 6px;
-    padding: 50px;
+    padding: 50px 50px 20px 50px;
     box-shadow: 2px 2px 6px rgba(0,0,0, 0.2);
 }
 
@@ -58,6 +58,7 @@
     border-style: none;
     padding: 10px 15px;
     border-radius: 4px;
+    margin: 25px 0;
 }
 
 .submit-button:hover {
